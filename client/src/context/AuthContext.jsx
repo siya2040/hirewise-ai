@@ -42,22 +42,40 @@ export const AuthProvider = ({ children }) => {
   // Fetch the public profiles row containing the user's platform role
   const fetchProfile = async (userId) => {
     try {
-      const { data, error } = await supabase
+      const { data: baseProfile, error: baseError } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .single();
 
-      if (error) {
-        console.error('[AuthContext Profile Fetch Error]:', error.message);
-        setProfile(null);
-        setUserRole(null);
-      } else {
-        setProfile(data);
-        setUserRole(data?.role || null);
+      if (baseError) throw baseError;
+
+      let details = null;
+      if (baseProfile.role === 'student') {
+        const { data, error } = await supabase
+          .from('student_profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        if (!error) details = data;
+      } else if (baseProfile.role === 'recruiter') {
+        const { data, error } = await supabase
+          .from('recruiter_profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        if (!error) details = data;
       }
+
+      setProfile({
+        ...baseProfile,
+        profileDetails: details
+      });
+      setUserRole(baseProfile.role || null);
     } catch (err) {
-      console.error('[AuthContext Profile Exception]:', err);
+      console.error('[AuthContext Profile Exception]:', err.message);
+      setProfile(null);
+      setUserRole(null);
     } finally {
       setLoading(false);
     }
