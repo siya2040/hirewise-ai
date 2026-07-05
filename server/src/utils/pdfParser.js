@@ -14,8 +14,9 @@ export const parsePDFText = async (pdfBuffer) => {
       const uint8Array = new Uint8Array(pdfBuffer);
       const parser = new pdf.PDFParse(uint8Array);
       await parser.load();
-      const text = await parser.getText();
-      return text || '';
+      const result = await parser.getText();
+      await parser.destroy().catch(() => {});
+      return result?.text || '';
     } else {
       // Fallback to traditional pdf-parse function signature
       const data = await pdf(pdfBuffer);
