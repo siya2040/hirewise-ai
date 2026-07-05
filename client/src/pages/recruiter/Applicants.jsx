@@ -207,25 +207,29 @@ export const Applicants = () => {
   });
 
   return (
-    <div className="space-y-6 text-left animate-in fade-in duration-200">
+    <div className="space-y-6 text-left animate-in fade-in duration-300 relative">
+      {/* Ambient background glows for premium depth ("IT" Factor) */}
+      <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-brand-500/10 blur-[100px] pointer-events-none -z-10 animate-pulse duration-[8s]"></div>
+      <div className="absolute bottom-20 -left-40 w-[450px] h-[450px] rounded-full bg-brand-600/5 blur-[120px] pointer-events-none -z-10"></div>
+
       {/* Page Header */}
-      <div>
+      <div className="relative z-10">
         <h2 className="text-2xl font-display font-extrabold text-white">Candidates & Applicants 🏢</h2>
         <p className="text-gray-400 text-sm mt-1">Review candidates and screen their ATS match profiles.</p>
       </div>
 
       {/* Query Bar */}
-      <div className="bg-dark-card border border-dark-border p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between">
+      <div className="glass border border-dark-border/60 p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between relative z-10">
         
         {/* Search */}
         <div className="relative w-full md:max-w-md">
-          <Search className="absolute left-3 top-3 text-gray-500" size={16} />
+          <Search className="absolute left-3.5 top-3.5 text-gray-500" size={16} />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search by name, job, or skills..."
-            className="w-full bg-dark-bg/60 border border-dark-border focus:border-brand-500 rounded-xl py-2 pl-10 pr-4 text-xs text-white placeholder-gray-600 outline-none transition-all"
+            className="w-full bg-dark-bg/40 border border-dark-border/80 focus:border-brand-500 rounded-xl py-2.5 pl-10 pr-4 text-xs text-white placeholder-gray-600 outline-none transition-all focus:shadow-md focus:shadow-brand-950/20"
           />
         </div>
 
@@ -235,7 +239,7 @@ export const Applicants = () => {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="bg-dark-bg/60 border border-dark-border focus:border-brand-500 rounded-xl py-2 px-3 text-xs text-gray-400 outline-none transition-all"
+            className="bg-dark-bg/40 border border-dark-border/80 focus:border-brand-500 rounded-xl py-2.5 px-4 text-xs text-gray-300 outline-none transition-all hover:bg-dark-bg/60 cursor-pointer"
           >
             <option value="">All Statuses</option>
             <option value="applied">Applied</option>
@@ -250,7 +254,7 @@ export const Applicants = () => {
           <select
             value={scoreFilter}
             onChange={(e) => setScoreFilter(e.target.value)}
-            className="bg-dark-bg/60 border border-dark-border focus:border-brand-500 rounded-xl py-2 px-3 text-xs text-gray-400 outline-none transition-all"
+            className="bg-dark-bg/40 border border-dark-border/80 focus:border-brand-500 rounded-xl py-2.5 px-4 text-xs text-gray-300 outline-none transition-all hover:bg-dark-bg/60 cursor-pointer"
           >
             <option value="">All Match Scores</option>
             <option value="high">High (&gt;80% Match)</option>
@@ -263,20 +267,20 @@ export const Applicants = () => {
 
       {/* Grid List view */}
       {loading ? (
-        <div className="py-20 flex flex-col items-center space-y-4 text-center">
+        <div className="py-20 flex flex-col items-center space-y-4 text-center relative z-10">
           <div className="w-10 h-10 rounded-full border-4 border-dark-border border-t-brand-500 animate-spin"></div>
           <p className="text-dark-muted text-xs">Retrieving candidate profiles...</p>
         </div>
       ) : filteredApplicants.length === 0 ? (
-        <div className="bg-dark-card border border-dark-border p-16 rounded-2xl text-center text-dark-muted text-xs">
+        <div className="glass border border-dark-border/60 p-16 rounded-2xl text-center text-dark-muted text-xs relative z-10">
           No applicants match the query parameters.
         </div>
       ) : (
-        <div className="bg-dark-card border border-dark-border rounded-2xl overflow-hidden">
+        <div className="glass border border-dark-border/60 rounded-2xl overflow-hidden shadow-xl shadow-brand-950/10 relative z-10">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-dark-border/60 bg-dark-bg/40 text-gray-400 font-bold uppercase tracking-wider">
+                <tr className="border-b border-dark-border/80 bg-dark-bg/40 text-slate-400 font-bold uppercase tracking-wider text-[10px]">
                   <th className="p-4 pl-6">Candidate</th>
                   <th className="p-4">Applied Job</th>
                   <th className="p-4">ATS Fit</th>
@@ -290,14 +294,14 @@ export const Applicants = () => {
                   <tr 
                     key={app.id} 
                     onClick={() => handleRowClick(app)}
-                    className="hover:bg-dark-bg/25 transition-colors cursor-pointer group"
+                    className="hover:bg-brand-500/5 hover:backdrop-blur-sm transition-all duration-200 cursor-pointer group"
                   >
                     <td className="p-4 pl-6 flex items-center space-x-3">
-                      <div className="w-8 h-8 rounded-full bg-brand-500/10 border border-brand-500/25 flex items-center justify-center text-brand-400 font-bold">
+                      <div className="w-9 h-9 rounded-xl bg-brand-500/10 border border-brand-500/20 flex items-center justify-center text-brand-400 font-bold shadow-sm shadow-brand-500/5 group-hover:scale-105 transition-transform">
                         {app.student?.profileDetails?.avatar_url ? (
-                          <img src={app.student.profileDetails.avatar_url} alt="Avatar" className="w-full h-full rounded-full object-cover" />
+                          <img src={app.student.profileDetails.avatar_url} alt="Avatar" className="w-full h-full rounded-xl object-cover" />
                         ) : (
-                          <User size={14} />
+                          <User size={15} />
                         )}
                       </div>
                       <div>
@@ -310,15 +314,17 @@ export const Applicants = () => {
                     
                     <td className="p-4">
                       <p className="font-semibold text-white">{app.job?.title}</p>
-                      <p className="text-[10px] text-dark-muted">{app.job?.job_type}</p>
+                      <p className="text-[10px] text-dark-muted mt-0.5">{app.job?.job_type}</p>
                     </td>
 
                     <td className="p-4">
-                      <span className={`font-bold ${
-                        app.ai_match_score >= 80 ? 'text-emerald-400' :
-                        app.ai_match_score >= 60 ? 'text-yellow-400' : 'text-red-400'
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                        app.ai_match_score >= 80 ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' :
+                        app.ai_match_score >= 60 ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 
+                        'bg-red-500/10 text-red-400 border border-red-500/20'
                       }`}>
-                        {Math.round(app.ai_match_score)}% Match
+                        <Sparkles size={10} className="mr-1" />
+                        {Math.round(app.ai_match_score)}% Fit
                       </span>
                     </td>
 
@@ -327,9 +333,11 @@ export const Applicants = () => {
                     </td>
 
                     <td className="p-4">
-                      <span className={`inline-block text-[9px] font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${
-                        app.status === 'rejected' ? 'bg-red-950/20 border-red-800/30 text-red-400' :
-                        app.status === 'offered' ? 'bg-emerald-950/20 border-emerald-800/30 text-emerald-400' :
+                      <span className={`inline-flex items-center text-[9px] font-bold px-2.5 py-0.5 rounded-full border uppercase tracking-wider ${
+                        app.status === 'rejected' ? 'bg-red-500/10 border-red-500/20 text-red-400' :
+                        app.status === 'offered' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' :
+                        app.status === 'interviewing' ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400' :
+                        app.status === 'shortlisted' ? 'bg-amber-500/10 border-amber-500/20 text-amber-400' :
                         'bg-brand-500/10 border-brand-500/20 text-brand-400'
                       }`}>
                         {app.status === 'offered' ? 'Selected' : app.status}
@@ -337,7 +345,7 @@ export const Applicants = () => {
                     </td>
 
                     <td className="p-4 pr-6 text-right text-gray-500 group-hover:text-white transition-colors">
-                      <ChevronRight size={16} className="inline" />
+                      <ChevronRight size={16} className="inline group-hover:translate-x-0.5 transition-transform" />
                     </td>
                   </tr>
                 ))}
