@@ -125,6 +125,16 @@ export const processResumeUpload = async (req, res) => {
       return res.status(404).json({ error: 'Could not fetch uploaded resume file from storage.' });
     }
 
+    console.log("[DEBUG] Downloaded Blob details - Size:", fileBlob.size, "bytes, Type:", fileBlob.type);
+    if (fileBlob.size < 1500) {
+      try {
+        const text = await fileBlob.text();
+        console.log("[DEBUG] Small Blob text content:", text);
+      } catch (err) {
+        console.log("[DEBUG] Failed to read small blob text:", err.message);
+      }
+    }
+
     // 2. Parse PDF buffer into text layout
     const arrayBuffer = await fileBlob.arrayBuffer();
     const pdfBuffer = Buffer.from(arrayBuffer);
