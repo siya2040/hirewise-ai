@@ -5,31 +5,31 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
 
-  /* Custom Premium Brand Color System */
-  --color-brand-50: #f4f6fe;
-  --color-brand-100: #e9edfd;
-  --color-brand-200: #d7e0fc;
-  --color-brand-300: #b9caf9;
-  --color-brand-400: #93abf4;
-  --color-brand-500: #637feb;
-  --color-brand-600: #4b62df;
-  --color-brand-700: #3b4ccb;
-  --color-brand-800: #3441a6;
-  --color-brand-900: #2e3984;
-  --color-brand-950: #1b2051;
+  /* Custom Premium Brand Color System (Emerald/Mint Green) */
+  --color-brand-50: #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+  --color-brand-300: #86efac;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --color-brand-950: #022c22;
 
-  /* Custom Premium Dark Palette */
-  --color-dark-deep: #030408;
-  --color-dark-bg: #0b0c10;
-  --color-dark-card: #131520;
-  --color-dark-border: #1f2335;
-  --color-dark-muted: #626a84;
-  --color-dark-accent: #7892fc;
+  /* Custom Premium Dark Palette (Forest Slate/Charcoal) */
+  --color-dark-deep: #020606;
+  --color-dark-bg: #080f0f;
+  --color-dark-card: #101919;
+  --color-dark-border: #1e2e2e;
+  --color-dark-muted: #6b8484;
+  --color-dark-accent: #34d399;
 
-  /* Accent Colors */
-  --color-accent-purple: #c084fc;
-  --color-accent-teal: #2dd4bf;
-  --color-accent-green: #34d399;
+  /* Accent Colors (Mapped to rich gold/amber for professional highlight) */
+  --color-accent-purple: #f59e0b;
+  --color-accent-teal: #0d9488;
+  --color-accent-green: #10b981;
 }
 
 /* Global Reset & Base Setup */
@@ -59,14 +59,14 @@
 
 /* Glassmorphism Classes */
 .glass {
-  background: rgba(19, 21, 32, 0.7);
+  background: rgba(16, 25, 25, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .glass-premium {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(30, 41, 99, 0.15) 0%, rgba(3, 4, 8, 0.8) 100%);
+  background: radial-gradient(120% 120% at 50% 0%, rgba(16, 185, 129, 0.08) 0%, rgba(2, 6, 6, 0.9) 100%);
   backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
