@@ -11,7 +11,7 @@ export const getProfile = async (req, res) => {
     const userId = req.user.id;
 
     // Join profiles with student_profiles or recruiter_profiles
-    const { data: baseProfile, error: baseError } = await supabase
+    const { data: baseProfile, error: baseError } = await supabaseAdmin
       .from('profiles')
       .select('*')
       .eq('id', userId)
@@ -24,14 +24,14 @@ export const getProfile = async (req, res) => {
     let detailProfile = null;
 
     if (baseProfile.role === 'student') {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('student_profiles')
         .select('*')
         .eq('id', userId)
         .single();
       if (!error) detailProfile = data;
     } else {
-      const { data, error } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('recruiter_profiles')
         .select('*')
         .eq('id', userId)
@@ -63,7 +63,7 @@ export const updateStudentProfile = async (req, res) => {
       if (fullName) updateData.full_name = fullName;
       if (avatarUrl) updateData.avatar_url = avatarUrl;
 
-      const { error } = await supabase
+      const { error } = await supabaseAdmin
         .from('profiles')
         .update(updateData)
         .eq('id', userId);
@@ -80,7 +80,7 @@ export const updateStudentProfile = async (req, res) => {
     if (education !== undefined) studentUpdate.education = education;
     if (bio !== undefined) studentUpdate.bio = bio;
 
-    const { error: studentError } = await supabase
+    const { error: studentError } = await supabaseAdmin
       .from('student_profiles')
       .update(studentUpdate)
       .eq('id', userId);
@@ -158,7 +158,7 @@ export const processResumeUpload = async (req, res) => {
 
     // 4. Update profiles table with parsed name
     if (parsed.name) {
-      await supabase
+      await supabaseAdmin
         .from('profiles')
         .update({ full_name: parsed.name })
         .eq('id', userId);
@@ -172,7 +172,7 @@ export const processResumeUpload = async (req, res) => {
       certifications: parsed.certifications || ''
     });
 
-    const { error: updateError } = await supabase
+    const { error: updateError } = await supabaseAdmin
       .from('student_profiles')
       .update({
         resume_url: fileUrl,
@@ -242,7 +242,7 @@ export const updateRecruiterProfile = async (req, res) => {
       const updateData = {};
       if (fullName) updateData.full_name = fullName;
       if (avatarUrl) updateData.avatar_url = avatarUrl;
-      const { error } = await supabase.from('profiles').update(updateData).eq('id', userId);
+      const { error } = await supabaseAdmin.from('profiles').update(updateData).eq('id', userId);
       if (error) throw error;
     }
 
@@ -252,7 +252,7 @@ export const updateRecruiterProfile = async (req, res) => {
     if (companyWebsite !== undefined) recruiterUpdate.company_website = companyWebsite;
     if (designation !== undefined) recruiterUpdate.designation = designation;
 
-    const { error: recError } = await supabase
+    const { error: recError } = await supabaseAdmin
       .from('recruiter_profiles')
       .update(recruiterUpdate)
       .eq('id', userId);
@@ -274,7 +274,7 @@ export const getRecruiterAnalytics = async (req, res) => {
     const recruiterId = req.user.id;
 
     // 1. Fetch total jobs posted by recruiter
-    const { data: jobs, error: jobsErr } = await supabase
+    const { data: jobs, error: jobsErr } = await supabaseAdmin
       .from('jobs')
       .select('id, status, requirements')
       .eq('recruiter_id', recruiterId);
@@ -299,7 +299,7 @@ export const getRecruiterAnalytics = async (req, res) => {
     const jobIds = jobs.map(j => j.id);
 
     // 2. Fetch applications submitted to recruiter's jobs
-    const { data: apps, error: appsErr } = await supabase
+    const { data: apps, error: appsErr } = await supabaseAdmin
       .from('applications')
       .select('id, status, ai_match_score')
       .in('job_id', jobIds);
@@ -358,7 +358,7 @@ export const optimizeResume = async (req, res) => {
     const userId = req.user.id;
 
     // 1. Fetch resume URL path
-    const { data: student, error: fetchErr } = await supabase
+    const { data: student, error: fetchErr } = await supabaseAdmin
       .from('student_profiles')
       .select('resume_url')
       .eq('id', userId)
