@@ -29,7 +29,8 @@ import {
   Lock,
   Unlock,
   Edit3,
-  Trash2
+  Trash2,
+  MapPin
 } from 'lucide-react';
 
 export const RecruiterDashboard = () => {
