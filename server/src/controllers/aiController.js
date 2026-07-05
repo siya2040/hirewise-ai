@@ -1,4 +1,4 @@
-import { supabase } from '../config/supabase.js';
+import { supabase, supabaseAdmin } from '../config/supabase.js';
 import { 
   generateInterviewQuestions, 
   evaluateInterviewAnswers,
@@ -19,7 +19,7 @@ export const startMockInterview = async (req, res) => {
     }
 
     // 1. Fetch student skills to customize questions
-    const { data: student, error: studentError } = await supabase
+    const { data: student, error: studentError } = await supabaseAdmin
       .from('student_profiles')
       .select('skills')
       .eq('id', studentId)
@@ -35,7 +35,7 @@ export const startMockInterview = async (req, res) => {
 
     // 2. If applying to a specific job, fetch details
     if (appliedJobId) {
-      const { data: job, error: jobError } = await supabase
+      const { data: job, error: jobError } = await supabaseAdmin
         .from('jobs')
         .select('id, title, description')
         .eq('id', appliedJobId)
@@ -62,7 +62,7 @@ export const startMockInterview = async (req, res) => {
     }));
 
     // 4. Save interview session in Supabase mock_interviews
-    const { data: session, error: dbError } = await supabase
+    const { data: session, error: dbError } = await supabaseAdmin
       .from('mock_interviews')
       .insert({
         student_id: studentId,
@@ -100,7 +100,7 @@ export const submitInterviewAnswers = async (req, res) => {
     }
 
     // 1. Fetch current interview details
-    const { data: session, error: sessionError } = await supabase
+    const { data: session, error: sessionError } = await supabaseAdmin
       .from('mock_interviews')
       .select('*')
       .eq('id', sessionId)
@@ -130,7 +130,7 @@ export const submitInterviewAnswers = async (req, res) => {
     const evaluation = await evaluateInterviewAnswers(evaluationPayload);
 
     // 5. Update database mock_interviews row
-    const { data: updatedSession, error: updateError } = await supabase
+    const { data: updatedSession, error: updateError } = await supabaseAdmin
       .from('mock_interviews')
       .update({
         questions_and_answers: updatedQAs,
@@ -176,7 +176,7 @@ export const getInterviewHistory = async (req, res) => {
   try {
     const studentId = req.user.id;
 
-    const { data: history, error } = await supabase
+    const { data: history, error } = await supabaseAdmin
       .from('mock_interviews')
       .select(`
         *,
