@@ -9,7 +9,9 @@ const pdf = require('pdf-parse');
  */
 export const parsePDFText = async (pdfBuffer) => {
   try {
-    const data = await pdf(pdfBuffer);
+    // Handle both traditional pdf-parse exports and modular pdf-parse v2 PDFParse function
+    const parseFn = typeof pdf.PDFParse === 'function' ? pdf.PDFParse : pdf;
+    const data = await parseFn(pdfBuffer);
     return data.text || '';
   } catch (error) {
     console.error('[PDF Parser Error]:', error);
