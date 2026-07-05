@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+
+  /* Custom Premium Brand Color System */
+  --color-brand-50: #f4f6fe;
+  --color-brand-100: #e9edfd;
+  --color-brand-200: #d7e0fc;
+  --color-brand-300: #b9caf9;
+  --color-brand-400: #93abf4;
+  --color-brand-500: #637feb;
+  --color-brand-600: #4b62df;
+  --color-brand-700: #3b4ccb;
+  --color-brand-800: #3441a6;
+  --color-brand-900: #2e3984;
+  --color-brand-950: #1b2051;
+
+  /* Custom Premium Dark Palette */
+  --color-dark-deep: #030408;
+  --color-dark-bg: #0b0c10;
+  --color-dark-card: #131520;
+  --color-dark-border: #1f2335;
+  --color-dark-muted: #626a84;
+  --color-dark-accent: #7892fc;
+
+  /* Accent Colors */
+  --color-accent-purple: #c084fc;
+  --color-accent-teal: #2dd4bf;
+  --color-accent-green: #34d399;
+}
+
+/* Global Reset & Base Setup */
+@layer base {
+  html, body {
+    @apply font-sans bg-dark-bg text-gray-100 min-h-screen scroll-smooth antialiased;
+    font-size: 16px;
+    background-color: #0b0c10; /* fallback */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-white tracking-tight;
+  }
+}
+
+/* Custom premium scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-dark-bg;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-dark-border rounded-full hover:bg-brand-600 transition-colors;
+}
+
+/* Glassmorphism Classes */
+.glass {
+  background: rgba(19, 21, 32, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-premium {
+  background: radial-gradient(120% 120% at 50% 0%, rgba(30, 41, 99, 0.15) 0%, rgba(3, 4, 8, 0.8) 100%);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Shimmer animations */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2s infinite;
+  content: '';
+}
