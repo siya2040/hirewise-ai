@@ -218,34 +218,79 @@ export const RecruiterDashboard = () => {
 
       {/* STAT CARDS BLOCK */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-1">
-          <div className="text-gray-500"><Briefcase size={16} /></div>
-          <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Jobs Posted</p>
-          <p className="font-display font-extrabold text-2xl text-white">{totalJobs}</p>
+        {/* Jobs Posted */}
+        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-brand-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-500/50"></div>
+          <div className="flex justify-between items-start">
+            <div className="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-400">
+              <Briefcase size={16} />
+            </div>
+            <p className="text-[9px] text-dark-muted font-bold uppercase tracking-wider">Active</p>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Jobs Posted</p>
+            <p className="font-display font-extrabold text-2xl text-white">{totalJobs}</p>
+          </div>
         </div>
 
-        <div className="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-1">
-          <div className="text-emerald-450"><CheckCircle size={16} /></div>
-          <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Active Openings</p>
-          <p className="font-display font-extrabold text-2xl text-white">{activeJobsCount}</p>
+        {/* Active Openings */}
+        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-emerald-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-emerald-500/50"></div>
+          <div className="flex justify-between items-start">
+            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
+              <CheckCircle size={16} />
+            </div>
+            <p className="text-[9px] text-emerald-400 font-bold uppercase tracking-wider">Hiring</p>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Active Openings</p>
+            <p className="font-display font-extrabold text-2xl text-white">{activeJobsCount}</p>
+          </div>
         </div>
 
-        <div className="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-1">
-          <div className="text-brand-450"><Users size={16} /></div>
-          <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Total Applicants</p>
-          <p className="font-display font-extrabold text-2xl text-white">{totalApplicants}</p>
+        {/* Total Applicants */}
+        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-sky-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-sky-500/50"></div>
+          <div className="flex justify-between items-start">
+            <div className="w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center text-sky-400">
+              <Users size={16} />
+            </div>
+            <p className="text-[9px] text-sky-400 font-bold uppercase tracking-wider">Screening</p>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Total Applicants</p>
+            <p className="font-display font-extrabold text-2xl text-white">{totalApplicants}</p>
+          </div>
         </div>
 
-        <div className="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-1">
-          <div className="text-yellow-450"><TrendingUp size={16} /></div>
-          <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Shortlisted</p>
-          <p className="font-display font-extrabold text-2xl text-white">{shortlisted}</p>
+        {/* Shortlisted */}
+        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-amber-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-amber-500/50"></div>
+          <div className="flex justify-between items-start">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
+              <TrendingUp size={16} />
+            </div>
+            <p className="text-[9px] text-amber-400 font-bold uppercase tracking-wider">Review</p>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Shortlisted</p>
+            <p className="font-display font-extrabold text-2xl text-white">{shortlisted}</p>
+          </div>
         </div>
 
-        <div className="bg-dark-card border border-dark-border p-5 rounded-2xl space-y-1 col-span-2 md:col-span-1">
-          <div className="text-accent-purple"><Calendar size={16} /></div>
-          <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Interviews</p>
-          <p className="font-display font-extrabold text-2xl text-white">{interviewing}</p>
+        {/* Interviews */}
+        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-indigo-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group col-span-2 md:col-span-1">
+          <div className="absolute top-0 left-0 w-full h-[2px] bg-indigo-500/50"></div>
+          <div className="flex justify-between items-start">
+            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+              <Calendar size={16} />
+            </div>
+            <p className="text-[9px] text-indigo-400 font-bold uppercase tracking-wider">Live</p>
+          </div>
+          <div className="space-y-0.5">
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Interviews</p>
+            <p className="font-display font-extrabold text-2xl text-white">{interviewing}</p>
+          </div>
         </div>
       </div>
 
