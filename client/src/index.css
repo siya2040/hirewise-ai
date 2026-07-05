@@ -5,31 +5,31 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-display: 'Outfit', system-ui, -apple-system, sans-serif;
 
-  /* Custom Premium Brand Color System (Emerald/Mint Green) */
-  --color-brand-50: #f0fdf4;
-  --color-brand-100: #dcfce7;
-  --color-brand-200: #bbf7d0;
-  --color-brand-300: #86efac;
-  --color-brand-400: #4ade80;
-  --color-brand-500: #10b981;
-  --color-brand-600: #059669;
-  --color-brand-700: #047857;
-  --color-brand-800: #065f46;
-  --color-brand-900: #064e3b;
-  --color-brand-950: #022c22;
+  /* Brand Color System (Steel Blue & Ice Blue Swatches) */
+  --color-brand-50: #f6fafd;
+  --color-brand-100: #e2f0fc;
+  --color-brand-200: #cce5fa;
+  --color-brand-300: #b3cfe5;
+  --color-brand-400: #7fb0d6;
+  --color-brand-500: #4a7fa7;
+  --color-brand-600: #3c6b8f;
+  --color-brand-700: #305877;
+  --color-brand-800: #25445e;
+  --color-brand-900: #1a3d63;
+  --color-brand-950: #0a1931;
 
-  /* Custom Premium Dark Palette (Forest Slate/Charcoal) */
-  --color-dark-deep: #020606;
-  --color-dark-bg: #080f0f;
-  --color-dark-card: #101919;
-  --color-dark-border: #1e2e2e;
-  --color-dark-muted: #6b8484;
-  --color-dark-accent: #34d399;
+  /* Dark Palette (Midnight Navy & Slate Borders) */
+  --color-dark-deep: #050d1a;
+  --color-dark-bg: #0a1931;
+  --color-dark-card: #15263f;
+  --color-dark-border: #1a3d63;
+  --color-dark-muted: #6b88a5;
+  --color-dark-accent: #b3cfe5;
 
-  /* Accent Colors (Mapped to rich gold/amber for professional highlight) */
-  --color-accent-purple: #f59e0b;
-  --color-accent-teal: #0d9488;
-  --color-accent-green: #10b981;
+  /* Accent Colors (Mapped to Ice Blue highlights) */
+  --color-accent-purple: #b3cfe5;
+  --color-accent-teal: #4a7fa7;
+  --color-accent-green: #34d399;
 }
 
 /* Global Reset & Base Setup */
@@ -37,7 +37,7 @@
   html, body {
     @apply font-sans bg-dark-bg text-gray-100 min-h-screen scroll-smooth antialiased;
     font-size: 16px;
-    background-color: #0b0c10; /* fallback */
+    background-color: #0a1931; /* fallback */
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -59,14 +59,14 @@
 
 /* Glassmorphism Classes */
 .glass {
-  background: rgba(16, 25, 25, 0.7);
+  background: rgba(21, 38, 63, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .glass-premium {
-  background: radial-gradient(120% 120% at 50% 0%, rgba(16, 185, 129, 0.08) 0%, rgba(2, 6, 6, 0.9) 100%);
+  background: radial-gradient(120% 120% at 50% 0%, rgba(74, 127, 167, 0.1) 0%, rgba(5, 13, 26, 0.95) 100%);
   backdrop-filter: blur(24px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
