@@ -182,10 +182,13 @@ export const RecruiterDashboard = () => {
   const COLORS = ['#5d5cde', '#a78bfa', '#34d399', '#fbbf24', '#f87171', '#6b7280'];
 
   return (
-    <div className="space-y-8 text-left animate-in fade-in duration-200">
+    <div className="space-y-8 text-left animate-in fade-in duration-300 relative">
+      {/* Ambient background glows for premium feel ("IT" Factor) */}
+      <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-brand-500/10 blur-[100px] pointer-events-none -z-10 animate-pulse duration-[8s]"></div>
+      <div className="absolute top-[30%] -left-40 w-[450px] h-[450px] rounded-full bg-brand-600/5 blur-[120px] pointer-events-none -z-10"></div>
       
       {/* Top Header Row */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
         <div>
           <h2 className="text-2xl font-display font-extrabold text-white">Recruiter Dashboard 🏢</h2>
           <p className="text-gray-400 text-sm mt-1">Manage corporate vacancies, candidates, and AI screening analytics.</p>
@@ -217,9 +220,9 @@ export const RecruiterDashboard = () => {
       </div>
 
       {/* STAT CARDS BLOCK */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 relative z-10">
         {/* Jobs Posted */}
-        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-brand-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+        <div className="glass border border-dark-border/60 hover:border-brand-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5 hover:-translate-y-1 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-brand-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-400">
@@ -231,10 +234,12 @@ export const RecruiterDashboard = () => {
             <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Jobs Posted</p>
             <p className="font-display font-extrabold text-2xl text-white">{totalJobs}</p>
           </div>
+          {/* Accent light-up spot inside card */}
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-brand-500/0 group-hover:bg-brand-500/8 blur-xl transition-all duration-500"></div>
         </div>
 
         {/* Active Openings */}
-        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-emerald-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+        <div className="glass border border-dark-border/60 hover:border-emerald-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/5 hover:-translate-y-1 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-emerald-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400">
@@ -246,10 +251,12 @@ export const RecruiterDashboard = () => {
             <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Active Openings</p>
             <p className="font-display font-extrabold text-2xl text-white">{activeJobsCount}</p>
           </div>
+          {/* Accent light-up spot inside card */}
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-emerald-500/0 group-hover:bg-emerald-500/8 blur-xl transition-all duration-500"></div>
         </div>
 
         {/* Total Applicants */}
-        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-sky-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+        <div className="glass border border-dark-border/60 hover:border-sky-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-sky-500/5 hover:-translate-y-1 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-sky-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-sky-500/10 flex items-center justify-center text-sky-400">
@@ -261,10 +268,12 @@ export const RecruiterDashboard = () => {
             <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Total Applicants</p>
             <p className="font-display font-extrabold text-2xl text-white">{totalApplicants}</p>
           </div>
+          {/* Accent light-up spot inside card */}
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-sky-500/0 group-hover:bg-sky-500/8 blur-xl transition-all duration-500"></div>
         </div>
 
         {/* Shortlisted */}
-        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-amber-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group">
+        <div className="glass border border-dark-border/60 hover:border-amber-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 hover:-translate-y-1 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-amber-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
@@ -276,10 +285,12 @@ export const RecruiterDashboard = () => {
             <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Shortlisted</p>
             <p className="font-display font-extrabold text-2xl text-white">{shortlisted}</p>
           </div>
+          {/* Accent light-up spot inside card */}
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-amber-500/0 group-hover:bg-amber-500/8 blur-xl transition-all duration-500"></div>
         </div>
 
         {/* Interviews */}
-        <div className="bg-gradient-to-br from-dark-card to-dark-bg/30 border border-dark-border/70 hover:border-indigo-500/20 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-lg hover:shadow-brand-950/10 hover:-translate-y-0.5 relative overflow-hidden group col-span-2 md:col-span-1">
+        <div className="glass border border-dark-border/60 hover:border-indigo-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/5 hover:-translate-y-1 relative overflow-hidden group col-span-2 md:col-span-1">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-indigo-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400">
@@ -291,6 +302,8 @@ export const RecruiterDashboard = () => {
             <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Interviews</p>
             <p className="font-display font-extrabold text-2xl text-white">{interviewing}</p>
           </div>
+          {/* Accent light-up spot inside card */}
+          <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-indigo-500/0 group-hover:bg-indigo-500/8 blur-xl transition-all duration-500"></div>
         </div>
       </div>
 
