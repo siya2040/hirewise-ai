@@ -17,7 +17,7 @@ export const submitApplication = async (req, res) => {
     }
 
     // 1. Check for duplicate application
-    const { data: existingApp } = await supabase
+    const { data: existingApp } = await supabaseAdmin
       .from('applications')
       .select('id')
       .eq('job_id', jobId)
@@ -29,7 +29,7 @@ export const submitApplication = async (req, res) => {
     }
 
     // 2. Fetch student profile to get resume URL
-    const { data: student, error: studentError } = await supabase
+    const { data: student, error: studentError } = await supabaseAdmin
       .from('student_profiles')
       .select('resume_url')
       .eq('id', studentId)
@@ -42,7 +42,7 @@ export const submitApplication = async (req, res) => {
     }
 
     // 3. Fetch target job details
-    const { data: job, error: jobError } = await supabase
+    const { data: job, error: jobError } = await supabaseAdmin
       .from('jobs')
       .select('*')
       .eq('id', jobId)
@@ -75,7 +75,7 @@ export const submitApplication = async (req, res) => {
     const matchAnalysis = await matchResumeToJob(resumeText, job);
 
     // 6. Save job application record
-    const { data: application, error: appError } = await supabase
+    const { data: application, error: appError } = await supabaseAdmin
       .from('applications')
       .insert({
         job_id: jobId,
@@ -122,7 +122,7 @@ export const getStudentApplications = async (req, res) => {
   try {
     const studentId = req.user.id;
 
-    const { data: apps, error } = await supabase
+    const { data: apps, error } = await supabaseAdmin
       .from('applications')
       .select(`
         *,
@@ -151,7 +151,7 @@ export const getRecruiterApplications = async (req, res) => {
   try {
     const recruiterId = req.user.id;
 
-    const { data: apps, error } = await supabase
+    const { data: apps, error } = await supabaseAdmin
       .from('applications')
       .select(`
         *,
@@ -188,7 +188,7 @@ export const updateApplicationStatus = async (req, res) => {
     }
 
     // 1. Verify that the recruiter owns the job associated with this application
-    const { data: appDetails, error: appError } = await supabase
+    const { data: appDetails, error: appError } = await supabaseAdmin
       .from('applications')
       .select('id, job_id, job:jobs(recruiter_id)')
       .eq('id', appId)
@@ -203,7 +203,7 @@ export const updateApplicationStatus = async (req, res) => {
     }
 
     // 2. Perform database update
-    const { data: updatedApp, error: updateErr } = await supabase
+    const { data: updatedApp, error: updateErr } = await supabaseAdmin
       .from('applications')
       .update({ status })
       .eq('id', appId)

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { supabase } from '../config/supabase.js';
+import { supabase, supabaseAdmin } from '../config/supabase.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 import { generateJobDescriptionText } from '../services/geminiService.js';
 
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   try {
     const { search, location, type, skills } = req.query;
 
-    let query = supabase
+    let query = supabaseAdmin
       .from('jobs')
       .select('*, recruiter:recruiter_profiles(company_name, company_website)')
       .eq('status', 'open');
@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const { data: job, error } = await supabase
+    const { data: job, error } = await supabaseAdmin
       .from('jobs')
       .select('*, recruiter:recruiter_profiles(company_name, company_website, designation)')
       .eq('id', id)
@@ -86,7 +86,7 @@ router.post('/', requireAuth, requireRole(['recruiter']), async (req, res) => {
       return res.status(400).json({ error: 'Please supply all required job details.' });
     }
 
-    const { data: job, error } = await supabase
+    const { data: job, error } = await supabaseAdmin
       .from('jobs')
       .insert({
         recruiter_id: recruiterId,
@@ -139,7 +139,7 @@ router.put('/:id', requireAuth, requireRole(['recruiter']), async (req, res) => 
     const { title, description, requirements, salaryRange, location, jobType } = req.body;
 
     // Verify ownership
-    const { data: existingJob, error: checkError } = await supabase
+    const { data: existingJob, error: checkError } = await supabaseAdmin
       .from('jobs')
       .select('recruiter_id')
       .eq('id', id)
@@ -153,7 +153,7 @@ router.put('/:id', requireAuth, requireRole(['recruiter']), async (req, res) => 
       return res.status(403).json({ error: 'Unauthorized to modify this job posting.' });
     }
 
-    const { data: job, error } = await supabase
+    const { data: job, error } = await supabaseAdmin
       .from('jobs')
       .update({
         title,
@@ -191,7 +191,7 @@ router.patch('/:id/status', requireAuth, requireRole(['recruiter']), async (req,
     }
 
     // Verify ownership
-    const { data: existingJob, error: checkError } = await supabase
+    const { data: existingJob, error: checkError } = await supabaseAdmin
       .from('jobs')
       .select('recruiter_id')
       .eq('id', id)
@@ -205,7 +205,7 @@ router.patch('/:id/status', requireAuth, requireRole(['recruiter']), async (req,
       return res.status(403).json({ error: 'Unauthorized to modify status of this job posting.' });
     }
 
-    const { data: job, error } = await supabase
+    const { data: job, error } = await supabaseAdmin
       .from('jobs')
       .update({
         status,
@@ -233,7 +233,7 @@ router.delete('/:id', requireAuth, requireRole(['recruiter']), async (req, res) 
     const { id } = req.params;
 
     // Verify ownership
-    const { data: existingJob, error: checkError } = await supabase
+    const { data: existingJob, error: checkError } = await supabaseAdmin
       .from('jobs')
       .select('recruiter_id')
       .eq('id', id)
@@ -247,7 +247,7 @@ router.delete('/:id', requireAuth, requireRole(['recruiter']), async (req, res) 
       return res.status(403).json({ error: 'Unauthorized to delete this job posting.' });
     }
 
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('jobs')
       .delete()
       .eq('id', id);
