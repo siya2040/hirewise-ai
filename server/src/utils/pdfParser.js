@@ -9,10 +9,18 @@ const pdf = require('pdf-parse');
  */
 export const parsePDFText = async (pdfBuffer) => {
   try {
-    // Handle both traditional pdf-parse exports and modular pdf-parse v2 PDFParse function
-    const parseFn = typeof pdf.PDFParse === 'function' ? pdf.PDFParse : pdf;
-    const data = await parseFn(pdfBuffer);
-    return data.text || '';
+    if (typeof pdf.PDFParse === 'function') {
+      // For modular pdf-parse v2, instantiate the class using Uint8Array
+      const uint8Array = new Uint8Array(pdfBuffer);
+      const parser = new pdf.PDFParse(uint8Array);
+      await parser.load();
+      const text = await parser.getText();
+      return text || '';
+    } else {
+      // Fallback to traditional pdf-parse function signature
+      const data = await pdf(pdfBuffer);
+      return data.text || '';
+    }
   } catch (error) {
     console.error('[PDF Parser Error]:', error);
     throw new Error('Failed to extract text from PDF document.');
