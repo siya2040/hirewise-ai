@@ -43,6 +43,12 @@ We have successfully completed **Phase 1** of the HireWise AI recruitment platfo
 - **Login**: Custom card with validation logic.
 - **Registration**: Features the **Premium Role Selection Screen** (Job Seeker card vs. Recruiter card) that guides users to conditional input fields.
 - **Portal & Recruiter views**: Built standard placeholders for Career Portal pages (Dashboard, Resume Insights, Applications, Mock Interview, Profile) and Recruiter pages (Dashboard, Job Post, Applicants, Profile) showing they are connected.
+    *   Recruiters can publish new job vacancies (e.g. Frontend Developer).
+    *   Dashboard displays real-time statistics (Jobs, Active Openings, Applicants, Shortlists) and interactive charts.
+7.  **Recruiter-Student Messaging Channels** ✅
+    *   Recruiters can trigger a conversation using the "Message Candidate" button inside an applicant's card.
+    *   Students can view active recruiter threads and respond in their dedicated Messages tab.
+    *   Unread counts badge active threads, and a 6-second polling handler syncs message streams dynamically.
 
 ---
 
@@ -72,3 +78,16 @@ npm run dev
 1. Go to the landing page and click **Get Started** or **Sign In**.
 2. Click **Get Started** to verify the Role Selection Screen.
 3. Attempting to enter `/portal/dashboard` while logged out will redirect you to `/login`.
+
+---
+
+## ⚡ Database Activation (Action Required)
+
+To activate the Chat Feature on your Supabase database, copy and run the DDL queries defined in the schema file:
+
+1.  Open [chat_schema.sql](file:///c:/Users/siyac/OneDrive/Desktop/smart%20recruitment/database/chat_schema.sql) in your project.
+2.  Copy all SQL commands.
+3.  Go to your **Supabase Dashboard** -> **SQL Editor** -> Click **New Query**.
+4.  Paste the commands and click **Run**.
+
+This will construct the `chat_sessions` and `chat_messages` tables with active Row Level Security (RLS) policies.
