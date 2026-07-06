@@ -89,6 +89,14 @@ export const JobsList = () => {
   const [applyLoading, setApplyLoading] = useState(null); // stores jobId being applied to
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [expandedJobs, setExpandedJobs] = useState({});
+
+  const toggleExpandJob = (jobId) => {
+    setExpandedJobs(prev => ({
+      ...prev,
+      [jobId]: !prev[jobId]
+    }));
+  };
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -324,8 +332,26 @@ export const JobsList = () => {
                     </button>
                   </div>
 
-                  <div className="text-xs text-gray-300 leading-relaxed font-light pl-3.5 border-l border-dark-border/40">
-                    {formatDescription(job.description)}
+                  <div className="relative">
+                    <div 
+                      className={`text-xs text-gray-300 leading-relaxed font-light pl-3.5 border-l border-dark-border/40 transition-all duration-300 relative ${
+                        expandedJobs[job.id] ? '' : 'max-h-[160px] overflow-hidden'
+                      }`}
+                    >
+                      {formatDescription(job.description)}
+                      
+                      {/* Fading overlay to fade out cut-off text when collapsed */}
+                      {!expandedJobs[job.id] && (
+                        <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-dark-card to-transparent pointer-events-none"></div>
+                      )}
+                    </div>
+                    
+                    <button
+                      onClick={() => toggleExpandJob(job.id)}
+                      className="text-brand-400 hover:text-brand-300 font-semibold text-[11px] mt-2.5 transition-colors"
+                    >
+                      {expandedJobs[job.id] ? 'Show Less' : 'Read More'}
+                    </button>
                   </div>
 
                   {/* Tag Details */}
