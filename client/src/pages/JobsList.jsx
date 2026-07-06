@@ -13,6 +13,78 @@ import {
   AlertCircle 
 } from 'lucide-react';
 
+// Markdown Helper Functions
+const getRawPreview = (text) => {
+  if (!text) return '';
+  return text
+    .replace(/[#*_-]/g, '') // remove markdown tags
+    .replace(/\s+/g, ' ')   // collapse double whitespace
+    .trim();
+};
+
+const formatDescription = (text) => {
+  if (!text) return null;
+
+  const lines = text.split('\n');
+
+  return (
+    <div className="space-y-2.5">
+      {lines.map((line, idx) => {
+        let trimmed = line.trim();
+        if (!trimmed) return null;
+
+        if (trimmed === '---') {
+          return <hr key={idx} className="border-dark-border/40 my-3" />;
+        }
+
+        if (trimmed.startsWith('# ')) {
+          return <h4 key={idx} className="text-sm font-bold text-white mt-3 mb-1">{trimmed.substring(2)}</h4>;
+        }
+        if (trimmed.startsWith('## ')) {
+          return <h5 key={idx} className="text-xs font-bold text-white mt-3 mb-1">{trimmed.substring(3)}</h5>;
+        }
+
+        let isBullet = false;
+        if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+          trimmed = trimmed.substring(2);
+          isBullet = true;
+        }
+
+        const parts = [];
+        const boldRegex = /\*\*([^*]+)\*\*/g;
+        let match;
+        let lastIndex = 0;
+
+        while ((match = boldRegex.exec(trimmed)) !== null) {
+          const index = match.index;
+          if (index > lastIndex) {
+            parts.push(trimmed.substring(lastIndex, index));
+          }
+          parts.push(<strong key={index} className="font-semibold text-white">{match[1]}</strong>);
+          lastIndex = boldRegex.lastIndex;
+        }
+
+        if (lastIndex < trimmed.length) {
+          parts.push(trimmed.substring(lastIndex));
+        }
+
+        const content = parts.length > 0 ? parts : trimmed;
+
+        if (isBullet) {
+          return (
+            <div key={idx} className="flex items-start space-x-2 pl-2">
+              <span className="text-brand-400 mt-1 shrink-0">•</span>
+              <span>{content}</span>
+            </div>
+          );
+        }
+
+        return <p key={idx}>{content}</p>;
+      })}
+    </div>
+  );
+};
+
 export const JobsList = () => {
   const { user, userRole } = useAuth();
   const navigate = useNavigate();
@@ -24,6 +96,14 @@ export const JobsList = () => {
   const [applyLoading, setApplyLoading] = useState(null); // stores jobId being applied to
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
+  const [expandedJobs, setExpandedJobs] = useState({});
+
+  const toggleExpandJob = (jobId) => {
+    setExpandedJobs(prev => ({
+      ...prev,
+      [jobId]: !prev[jobId]
+    }));
+  };
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -259,9 +339,31 @@ export const JobsList = () => {
                     </button>
                   </div>
 
-                  <p className="text-xs text-gray-300 leading-relaxed font-light line-clamp-3">
-                    {job.description}
-                  </p>
+                  {expandedJobs[job.id] ? (
+                    <div className="space-y-3">
+                      <div className="text-xs text-gray-300 leading-relaxed font-light border-l border-dark-border/40 pl-3.5 py-1">
+                        {formatDescription(job.description)}
+                      </div>
+                      <button
+                        onClick={() => toggleExpandJob(job.id)}
+                        className="text-brand-400 hover:text-brand-300 font-semibold text-[11px] transition-colors"
+                      >
+                        Show Less
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      <p className="text-xs text-gray-400 leading-relaxed font-light line-clamp-3">
+                        {getRawPreview(job.description)}
+                      </p>
+                      <button
+                        onClick={() => toggleExpandJob(job.id)}
+                        className="text-brand-400 hover:text-brand-300 font-semibold text-[11px] transition-colors"
+                      >
+                        Read More
+                      </button>
+                    </div>
+                  )}
 
                   {/* Tag Details */}
                   <div className="flex flex-wrap gap-4 text-xs text-gray-400 border-t border-dark-border/30 pt-3">
