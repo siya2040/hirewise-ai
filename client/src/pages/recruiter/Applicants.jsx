@@ -102,7 +102,7 @@ export const Applicants = () => {
       navigate(`/recruiter/chat?sessionId=${session.id}`);
     } catch (err) {
       console.error('Failed to start chat session:', err);
-      alert('Could not start a chat session with this candidate.');
+      alert(`Could not start a chat session: ${err.message || 'Unknown error'}`);
     } finally {
       setChatLoading(false);
     }
