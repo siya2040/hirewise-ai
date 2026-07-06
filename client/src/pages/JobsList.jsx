@@ -16,10 +16,36 @@ import {
 // Markdown Helper Functions
 const getRawPreview = (text) => {
   if (!text) return '';
-  return text
-    .replace(/[#*_-]/g, '') // remove markdown tags
-    .replace(/\s+/g, ' ')   // collapse double whitespace
-    .trim();
+  const lines = text.split('\n');
+  const previewParagraphs = [];
+
+  for (let line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed) continue;
+
+    // Skip title headers, subheaders, and dividers
+    if (trimmed.startsWith('#') || trimmed.startsWith('---')) continue;
+
+    // Skip lines containing metadata tags
+    const lower = trimmed.toLowerCase();
+    if (
+      lower.includes('location:') ||
+      lower.includes('employment type:') ||
+      lower.includes('experience level:') ||
+      lower.includes('salary range:') ||
+      lower.includes('salary:')
+    ) {
+      continue;
+    }
+
+    // Clean markdown formatting symbols
+    const cleaned = trimmed.replace(/[#*_-]/g, '').trim();
+    if (cleaned) {
+      previewParagraphs.push(cleaned);
+    }
+  }
+
+  return previewParagraphs.join(' ');
 };
 
 const formatDescription = (text) => {
