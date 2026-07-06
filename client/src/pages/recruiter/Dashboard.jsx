@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { apiFetch } from '../../lib/api';
+import { useAuth } from '../../context/AuthContext';
 import { 
   BarChart, 
   Bar, 
@@ -34,6 +35,7 @@ import {
 } from 'lucide-react';
 
 export const RecruiterDashboard = () => {
+  const { profile } = useAuth();
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' or 'analytics'
 
   // Statistics state
@@ -53,8 +55,8 @@ export const RecruiterDashboard = () => {
       const statsData = await apiFetch('/profile/recruiter/analytics');
       setStats(statsData);
 
-      // 2. Fetch jobs list
-      const jobsList = await apiFetch('/jobs');
+      // 2. Fetch jobs list (including closed ones for the recruiter to manage)
+      const jobsList = await apiFetch(`/jobs?recruiterId=${profile?.id || ''}&includeClosed=true`);
       setJobs(jobsList);
 
       // 3. Fetch applications to compute local time-trends and skills charts

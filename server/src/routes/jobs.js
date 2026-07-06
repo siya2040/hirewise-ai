@@ -11,12 +11,21 @@ const router = Router();
  */
 router.get('/', async (req, res) => {
   try {
-    const { search, location, type, skills } = req.query;
+    const { search, location, type, skills, recruiterId, includeClosed } = req.query;
 
     let query = supabaseAdmin
       .from('jobs')
-      .select('*, recruiter:recruiter_profiles(company_name, company_website)')
-      .eq('status', 'open');
+      .select('*, recruiter:recruiter_profiles(company_name, company_website)');
+
+    // Only filter by open status if includeClosed is not explicitly 'true'
+    if (includeClosed !== 'true') {
+      query = query.eq('status', 'open');
+    }
+
+    // Filter by specific recruiter if requested
+    if (recruiterId) {
+      query = query.eq('recruiter_id', recruiterId);
+    }
 
     // Apply Search Filter (ILIKE title or description)
     if (search) {
