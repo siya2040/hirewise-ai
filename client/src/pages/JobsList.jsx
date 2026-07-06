@@ -14,39 +14,6 @@ import {
 } from 'lucide-react';
 
 // Markdown Helper Functions
-const getRawPreview = (text) => {
-  if (!text) return '';
-  const lines = text.split('\n');
-  const previewParagraphs = [];
-
-  for (let line of lines) {
-    const trimmed = line.trim();
-    if (!trimmed) continue;
-
-    // Skip title headers, subheaders, and dividers
-    if (trimmed.startsWith('#') || trimmed.startsWith('---')) continue;
-
-    // Skip lines containing metadata tags
-    const lower = trimmed.toLowerCase();
-    if (
-      lower.includes('location:') ||
-      lower.includes('employment type:') ||
-      lower.includes('experience level:') ||
-      lower.includes('salary range:') ||
-      lower.includes('salary:')
-    ) {
-      continue;
-    }
-
-    // Clean markdown formatting symbols
-    const cleaned = trimmed.replace(/[#*_-]/g, '').trim();
-    if (cleaned) {
-      previewParagraphs.push(cleaned);
-    }
-  }
-
-  return previewParagraphs.join(' ');
-};
 
 const formatDescription = (text) => {
   if (!text) return null;
@@ -122,14 +89,6 @@ export const JobsList = () => {
   const [applyLoading, setApplyLoading] = useState(null); // stores jobId being applied to
   const [errorMsg, setErrorMsg] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
-  const [expandedJobs, setExpandedJobs] = useState({});
-
-  const toggleExpandJob = (jobId) => {
-    setExpandedJobs(prev => ({
-      ...prev,
-      [jobId]: !prev[jobId]
-    }));
-  };
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -365,31 +324,9 @@ export const JobsList = () => {
                     </button>
                   </div>
 
-                  {expandedJobs[job.id] ? (
-                    <div className="space-y-3">
-                      <div className="text-xs text-gray-300 leading-relaxed font-light border-l border-dark-border/40 pl-3.5 py-1">
-                        {formatDescription(job.description)}
-                      </div>
-                      <button
-                        onClick={() => toggleExpandJob(job.id)}
-                        className="text-brand-400 hover:text-brand-300 font-semibold text-[11px] transition-colors"
-                      >
-                        Show Less
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="space-y-2">
-                      <p className="text-xs text-gray-400 leading-relaxed font-light line-clamp-3">
-                        {getRawPreview(job.description)}
-                      </p>
-                      <button
-                        onClick={() => toggleExpandJob(job.id)}
-                        className="text-brand-400 hover:text-brand-300 font-semibold text-[11px] transition-colors"
-                      >
-                        Read More
-                      </button>
-                    </div>
-                  )}
+                  <div className="text-xs text-gray-300 leading-relaxed font-light pl-3.5 border-l border-dark-border/40">
+                    {formatDescription(job.description)}
+                  </div>
 
                   {/* Tag Details */}
                   <div className="flex flex-wrap gap-4 text-xs text-gray-400 border-t border-dark-border/30 pt-3">
