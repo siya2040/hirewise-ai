@@ -10,6 +10,19 @@ if (!apiKey) {
 
 const genAI = new GoogleGenerativeAI(apiKey || '');
 
+const parseSafeJSON = (text) => {
+  try {
+    let cleaned = text.trim();
+    if (cleaned.startsWith('```')) {
+      cleaned = cleaned.replace(/^```(?:json)?/i, '').replace(/```$/i, '');
+    }
+    return JSON.parse(cleaned.trim());
+  } catch (err) {
+    console.error('[Safe JSON Parse Error]: Failed to parse text:', text);
+    throw err;
+  }
+};
+
 // We use the fast and powerful gemini-2.5-flash model for analytical operations
 const getModel = () => {
   return genAI.getGenerativeModel({ 
@@ -65,7 +78,7 @@ export const analyzeResume = async (resumeText) => {
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini analyzeResume Error]:', error);
     throw new Error('Gemini AI failed to analyze the resume.');
@@ -81,6 +94,7 @@ export const analyzeResume = async (resumeText) => {
 export const matchResumeToJob = async (resumeText, job) => {
   try {
     const model = getModel();
+    const requirementsStr = Array.isArray(job.requirements) ? job.requirements.join(', ') : '';
     const prompt = `
       You are an expert recruitment matching engine.
       Analyze the candidate's resume text against the target job posting details and compute a fit analysis.
@@ -88,7 +102,7 @@ export const matchResumeToJob = async (resumeText, job) => {
       Job Details:
       - Title: ${job.title}
       - Description: ${job.description}
-      - Core Requirements: ${job.requirements.join(', ')}
+      - Core Requirements: ${requirementsStr}
       
       Candidate Resume Text:
       """
@@ -107,10 +121,10 @@ export const matchResumeToJob = async (resumeText, job) => {
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini matchResumeToJob Error]:', error);
-    throw new Error('Gemini AI failed to compute job match score.');
+    throw new Error('Gemini AI failed to compute job match score: ' + error.message);
   }
 };
 
@@ -147,7 +161,7 @@ export const generateInterviewQuestions = async (skills, jobTitle, jobDescriptio
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini generateInterviewQuestions Error]:', error);
     throw new Error('Gemini AI failed to generate mock interview questions.');
@@ -191,7 +205,7 @@ export const evaluateInterviewAnswers = async (qaList) => {
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini evaluateInterviewAnswers Error]:', error);
     throw new Error('Gemini AI failed to evaluate interview answers.');
@@ -263,7 +277,7 @@ export const generateRecruiterQuestionsForCandidate = async (candidateName, cand
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini generateRecruiterQuestionsForCandidate Error]:', error);
     throw new Error('Gemini AI failed to generate recruiter interview questions.');
@@ -305,7 +319,7 @@ export const optimizeResumeContent = async (resumeText) => {
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
-    return JSON.parse(text);
+    return parseSafeJSON(text);
   } catch (error) {
     console.error('[Gemini optimizeResumeContent Error]:', error);
     throw new Error('Gemini AI failed to generate resume optimization recommendations.');
