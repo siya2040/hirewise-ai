@@ -10,7 +10,8 @@ import {
   Sparkles, 
   Search, 
   Filter, 
-  AlertCircle 
+  AlertCircle,
+  CheckCircle
 } from 'lucide-react';
 
 // Markdown Helper Functions
@@ -233,7 +234,7 @@ export const JobsList = () => {
 
         {successMsg && (
           <div className="flex items-center space-x-2 bg-emerald-950/20 border border-emerald-800/40 p-4 rounded-xl text-emerald-400 text-xs">
-            <CheckCircle2 size={16} className="shrink-0" />
+            <CheckCircle size={16} className="shrink-0" />
             <span>{successMsg}</span>
           </div>
         )}
