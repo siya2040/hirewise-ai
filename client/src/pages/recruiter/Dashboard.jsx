@@ -120,6 +120,7 @@ export const RecruiterDashboard = () => {
   const totalApplicants = stats?.totalApplicants || 0;
   const shortlisted = stats?.shortlisted || 0;
   const interviewing = stats?.interviewing || 0;
+  const selectedCount = stats?.funnel?.selected || 0;
   const avgAtsScore = stats?.avgAtsScore || 0;
 
   // Filtered applications for analytics
@@ -274,18 +275,18 @@ export const RecruiterDashboard = () => {
           <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-sky-500/0 group-hover:bg-sky-500/8 blur-xl transition-all duration-500"></div>
         </div>
 
-        {/* Shortlisted */}
+        {/* Selected */}
         <div className="glass border border-dark-border/60 hover:border-amber-500/30 p-5 rounded-2xl space-y-3 transition-all duration-300 hover:shadow-xl hover:shadow-amber-500/5 hover:-translate-y-1 relative overflow-hidden group">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-amber-500/50"></div>
           <div className="flex justify-between items-start">
             <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400">
               <TrendingUp size={16} />
             </div>
-            <p className="text-[9px] text-amber-400 font-bold uppercase tracking-wider">Review</p>
+            <p className="text-[9px] text-amber-400 font-bold uppercase tracking-wider">Hired</p>
           </div>
           <div className="space-y-0.5">
-            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Shortlisted</p>
-            <p className="font-display font-extrabold text-2xl text-white">{shortlisted}</p>
+            <p className="text-[10px] text-dark-muted font-bold uppercase tracking-wider">Selected</p>
+            <p className="font-display font-extrabold text-2xl text-white">{selectedCount}</p>
           </div>
           {/* Accent light-up spot inside card */}
           <div className="absolute -bottom-10 -right-10 w-24 h-24 rounded-full bg-amber-500/0 group-hover:bg-amber-500/8 blur-xl transition-all duration-500"></div>
