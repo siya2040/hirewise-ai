@@ -8,6 +8,7 @@ import jobsRouter from './routes/jobs.js';
 import applicationsRouter from './routes/applications.js';
 import aiRouter from './routes/ai.js';
 import notificationsRouter from './routes/notifications.js';
+import chatRouter from './routes/chat.js';
 
 dotenv.config();
 
@@ -46,6 +47,7 @@ app.use('/api/jobs', jobsRouter);
 app.use('/api/applications', applicationsRouter);
 app.use('/api/ai', aiRouter);
 app.use('/api/notifications', notificationsRouter);
+app.use('/api/chat', chatRouter);
 
 
 // 3. Centralized Error Handling Middleware
