@@ -14,13 +14,20 @@ import {
   ExternalLink,
   Printer,
   X,
-  FileText
+  FileText,
+  MessageSquare
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export const Applicants = () => {
+  const navigate = useNavigate();
+  const { profile } = useAuth();
+
   // Query States
   const [applicants, setApplicants] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [chatLoading, setChatLoading] = useState(false);
 
   // Filters
   const [searchTerm, setSearchTerm] = useState('');
@@ -79,6 +86,26 @@ export const Applicants = () => {
     setSelectedApp(null);
     setPdfSignedUrl('');
     setQuestions([]);
+  };
+
+  const handleMessageCandidate = async () => {
+    if (!selectedApp) return;
+    setChatLoading(true);
+    try {
+      const session = await apiFetch('/chat/sessions', {
+        method: 'POST',
+        body: JSON.stringify({
+          studentId: selectedApp.student_id,
+          jobId: selectedApp.job_id
+        })
+      });
+      navigate(`/recruiter/chat?sessionId=${session.id}`);
+    } catch (err) {
+      console.error('Failed to start chat session:', err);
+      alert('Could not start a chat session with this candidate.');
+    } finally {
+      setChatLoading(false);
+    }
   };
 
   // Update Application Status
@@ -393,9 +420,17 @@ export const Applicants = () => {
 
                 <div className="flex space-x-2">
                   <button
+                    onClick={handleMessageCandidate}
+                    disabled={chatLoading}
+                    className="bg-brand-650 hover:bg-brand-700 disabled:opacity-40 text-white font-bold py-2 px-3.5 rounded-xl text-xs transition-all flex items-center space-x-1.5 shadow"
+                  >
+                    <MessageSquare size={13} />
+                    <span>Message</span>
+                  </button>
+                  <button
                     onClick={() => handleUpdateStatus('shortlisted')}
                     disabled={statusLoading || selectedApp.status === 'shortlisted'}
-                    className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white font-bold py-2 px-4 rounded-xl text-xs transition-all"
+                    className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-bold py-2 px-4 rounded-xl text-xs transition-all"
                   >
                     Shortlist
                   </button>

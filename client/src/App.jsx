@@ -17,12 +17,14 @@ import { Applications } from './pages/portal/Applications';
 import { MockInterview } from './pages/portal/MockInterview';
 import { PortalProfile } from './pages/portal/Profile';
 import { PortalSettings } from './pages/portal/Settings';
+import { StudentChat } from './pages/portal/Chat';
 
 // Recruiter Dashboard Pages
 import { RecruiterDashboard } from './pages/recruiter/Dashboard';
 import { JobPost } from './pages/recruiter/JobPost';
 import { Applicants } from './pages/recruiter/Applicants';
 import { RecruiterProfile } from './pages/recruiter/Profile';
+import { RecruiterChat } from './pages/recruiter/Chat';
 
 function App() {
   return (
@@ -87,6 +89,16 @@ function App() {
             } 
           />
           <Route 
+            path="/portal/chat" 
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <DashboardLayout>
+                  <StudentChat />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
             path="/portal/settings" 
             element={
               <ProtectedRoute allowedRoles={['student', 'recruiter']}>
@@ -124,6 +136,16 @@ function App() {
               <ProtectedRoute allowedRoles={['recruiter']}>
                 <DashboardLayout>
                   <Applicants />
+                </DashboardLayout>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path="/recruiter/chat" 
+            element={
+              <ProtectedRoute allowedRoles={['recruiter']}>
+                <DashboardLayout>
+                  <RecruiterChat />
                 </DashboardLayout>
               </ProtectedRoute>
             } 

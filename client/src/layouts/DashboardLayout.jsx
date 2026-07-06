@@ -14,7 +14,8 @@ import {
   PlusSquare, 
   Users,
   Settings,
-  Bell
+  Bell,
+  MessageSquare
 } from 'lucide-react';
 
 export const DashboardLayout = ({ children }) => {
@@ -73,6 +74,7 @@ export const DashboardLayout = ({ children }) => {
     { label: 'AI Resume Insights', path: '/portal/resume-insights', icon: Sparkles },
     { label: 'Track Applications', path: '/portal/applications', icon: Briefcase },
     { label: 'Practice Interviews', path: '/portal/mock-interview', icon: FileText },
+    { label: 'Messages', path: '/portal/chat', icon: MessageSquare },
     { label: 'My Profile', path: '/portal/profile', icon: User },
     { label: 'Settings', path: '/portal/settings', icon: Settings }
   ];
@@ -81,6 +83,7 @@ export const DashboardLayout = ({ children }) => {
     { label: 'Recruiter Home', path: '/recruiter/dashboard', icon: LayoutDashboard },
     { label: 'Post new Job', path: '/recruiter/jobs/new', icon: PlusSquare },
     { label: 'Manage Candidates', path: '/recruiter/applicants', icon: Users },
+    { label: 'Chat Inbox', path: '/recruiter/chat', icon: MessageSquare },
     { label: 'Company Profile', path: '/recruiter/profile', icon: User },
     { label: 'Settings', path: '/portal/settings', icon: Settings }
   ];
