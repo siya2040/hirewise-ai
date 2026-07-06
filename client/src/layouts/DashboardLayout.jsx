@@ -27,6 +27,7 @@ export const DashboardLayout = ({ children }) => {
   // Notifications State
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [unreadChats, setUnreadChats] = useState(0);
 
   const fetchNotifications = async () => {
     try {
@@ -37,9 +38,23 @@ export const DashboardLayout = ({ children }) => {
     }
   };
 
+  const fetchUnreadChats = async () => {
+    try {
+      const data = await apiFetch('/chat/sessions');
+      const count = data.reduce((acc, session) => acc + (session.unreadCount || 0), 0);
+      setUnreadChats(count);
+    } catch (err) {
+      console.error('Failed to load chat unread count:', err);
+    }
+  };
+
   useEffect(() => {
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 30000);
+    fetchUnreadChats();
+    const interval = setInterval(() => {
+      fetchNotifications();
+      fetchUnreadChats();
+    }, 15000); // Poll every 15 seconds
     return () => clearInterval(interval);
   }, []);
 
@@ -137,18 +152,26 @@ export const DashboardLayout = ({ children }) => {
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path;
+            const isChat = item.label === 'Messages' || item.label === 'Chat Inbox';
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group text-sm font-medium ${
+                className={`flex items-center justify-between px-4 py-3 rounded-xl transition-all duration-200 group text-sm font-medium ${
                   isActive 
                     ? 'bg-brand-600 text-white shadow-lg shadow-brand-600/15' 
                     : 'text-gray-400 hover:bg-dark-border hover:text-gray-100'
                 }`}
               >
-                <Icon size={18} className={isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-100 transition-colors'} />
-                <span>{item.label}</span>
+                <div className="flex items-center space-x-3">
+                  <Icon size={18} className={isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-100 transition-colors'} />
+                  <span>{item.label}</span>
+                </div>
+                {isChat && unreadChats > 0 && (
+                  <span className="w-5 h-5 rounded-full bg-brand-500 text-white font-bold text-[9px] flex items-center justify-center shrink-0 animate-pulse">
+                    {unreadChats}
+                  </span>
+                )}
               </Link>
             );
           })}
@@ -193,19 +216,27 @@ export const DashboardLayout = ({ children }) => {
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.path;
+                const isChat = item.label === 'Messages' || item.label === 'Chat Inbox';
                 return (
                   <Link
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-150 text-sm font-medium ${
+                    className={`flex items-center justify-between px-4 py-2.5 rounded-xl transition-all duration-150 text-sm font-medium ${
                       isActive 
                         ? 'bg-brand-600 text-white' 
                         : 'text-gray-400 hover:bg-dark-border hover:text-gray-100'
                     }`}
                   >
-                    <Icon size={16} />
-                    <span>{item.label}</span>
+                    <div className="flex items-center space-x-3">
+                      <Icon size={16} />
+                      <span>{item.label}</span>
+                    </div>
+                    {isChat && unreadChats > 0 && (
+                      <span className="w-5 h-5 rounded-full bg-brand-500 text-white font-bold text-[9px] flex items-center justify-center shrink-0">
+                        {unreadChats}
+                      </span>
+                    )}
                   </Link>
                 );
               })}

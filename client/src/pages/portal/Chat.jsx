@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { apiFetch } from '../../lib/api';
-import { MessageSquare, Send, RefreshCw, Briefcase, User, Clock } from 'lucide-react';
+import { MessageSquare, Send, RefreshCw, Briefcase, User } from 'lucide-react';
 
 export const StudentChat = () => {
   const { profile } = useAuth();
@@ -256,9 +256,8 @@ export const StudentChat = () => {
                           }`}>
                             {m.content}
                           </div>
-                          <div className={`flex items-center space-x-1 text-[8px] text-dark-muted ${isMine ? 'justify-end' : 'justify-start'}`}>
-                            <Clock size={8} />
-                            <span>{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                          <div className={`text-[8px] text-dark-muted mt-0.5 ${isMine ? 'text-right' : 'text-left'}`}>
+                            {new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </div>
                         </div>
                       </div>
