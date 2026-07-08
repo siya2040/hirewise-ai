@@ -7,8 +7,8 @@
 *   **Live Deployed URL**: [https://hirewise-ai-black.vercel.app/](https://hirewise-ai-black.vercel.app/)
 
 ### **Project Team Details**
-*   **Group Lead**: Siya Chauhan (SAP ID: **500121922**)
-*   **Group Member**: Vishesh Duggal (SAP ID: **500119110**)
+*   **Group Lead**: Siya Chauhan (SAP ID: **500121922** | Email: siyachauhan2040@gmail.com)
+*   **Group Member**: Vishesh Duggal (SAP ID: **500119110** | Email: visheshkumar6977@gmail.com)
 
 ---
 
